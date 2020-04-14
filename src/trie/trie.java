@@ -19,17 +19,10 @@ public class trie {
     private TrieNode root;
 
     public class TrieNode {
-        private char letter;
+
         private HashMap<Character, TrieNode> children = new HashMap<>();
         boolean isEnd;
 
-        public TrieNode(char letter) {
-            this.letter = letter;
-        }
-
-        public char getChar(char letter) {
-            return letter;
-        }
 
         public HashMap<Character, TrieNode> getChildren() {
             return children;
@@ -49,6 +42,16 @@ public class trie {
 
         public TrieNode() {
         }
+
+        private void addToPref(String path) {
+            if (isEnd)
+                prefOut.add(path);
+
+            for (Map.Entry<Character, TrieNode> node : children.entrySet()) {
+                node.getValue().addToPref(path + node.getKey());
+            }
+
+        }
     }
 
     public trie() {
@@ -57,23 +60,24 @@ public class trie {
 
     public void add(String s) {
         HashMap<Character, TrieNode> children = root.getChildren();
-        for(int i = 0; i < s.length(); i++) {
+        for (int i = 0; i < s.length(); i++) {
             char letter = s.charAt(i);
             TrieNode node;
-            if(children.containsKey(letter)) {
+            if (children.containsKey(letter)) {
                 node = children.get(letter);
             } else {
-                node = new TrieNode(letter);
+                node = new TrieNode();
                 children.put(letter, node);
             }
             children = node.getChildren();
 
-            if(i == s.length() - 1) {
+            if (i == s.length() - 1) {
                 node.setEnd(true);
             }
         }
     }
-    public void delete(String s){
+
+    public void delete(String s) {
         delete(root, s, 0);
     }
 
@@ -101,7 +105,7 @@ public class trie {
     public boolean find(String s) {
         HashMap<Character, TrieNode> children = root.getChildren();
         TrieNode node = null;
-        for (char letter: s.toLowerCase().toCharArray()) {
+        for (char letter : s.toLowerCase().toCharArray()) {
             if (children.containsKey(letter)) {
                 node = children.get(letter);
                 children = node.getChildren();
@@ -120,7 +124,7 @@ public class trie {
     public TrieNode findNode(String s) {
         HashMap<Character, TrieNode> children = root.getChildren();
         TrieNode a = null;
-        for (int i=0; i < s.length(); i++) {
+        for (int i = 0; i < s.length(); i++) {
             char letter = s.charAt(i);
             if (children.containsKey(letter)) {
                 a = children.get(letter);
@@ -128,7 +132,23 @@ public class trie {
             } else {
                 return null;
             }
-        } return a;
+        }
+        return a;
+    }
+
+
+    private List<String> prefOut = new LinkedList<String>();
+
+    public List<String> wordsWithPrefix(String pref) {
+        prefOut = new LinkedList<String>();
+
+        TrieNode start = findNode(pref);
+
+        for (Map.Entry<Character, TrieNode> node : start.getChildren().entrySet()) {
+            node.getValue().addToPref(pref + node.getKey());
+        }
+
+        return prefOut;
     }
 }
 
