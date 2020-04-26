@@ -102,17 +102,7 @@ public class trie {
     }
 
     public boolean find(String s) {
-        HashMap<Character, TrieNode> children = root.getChildren();
-        TrieNode node = null;
-        for (char letter : s.toCharArray()) {
-            if (children.containsKey(letter)) {
-                node = children.get(letter);
-                children = node.getChildren();
-            } else {
-                node = null;
-                break;
-            }
-        }
+        TrieNode node = findNode(s);
         if (node != null && node.isEnd()) {
             return true;
         } else {

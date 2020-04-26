@@ -19,19 +19,7 @@ class Tests {
     }
 
     @Test
-    public void Test2() {
-        trie trie = new trie();
-        trie.add("father");
-        trie.add("mother");
-        trie.add("gun");
-        trie.add("funny");
-        trie.add("hello");
-        assertTrue(trie.find("gun"));
-        assertFalse(trie.find("monkey"));
-    }
-
-    @Test
-    public void DeleteTest1() {
+    public void DeleteTest() {
         trie trie = new trie();
         trie.add("game");
         trie.add("gun");
@@ -40,18 +28,6 @@ class Tests {
         assertTrue(trie.find("gun"));
         trie.delete("gun");
         assertFalse(trie.find("gun"));
-    }
-
-    @Test
-    public void DeleteTest2() {
-        trie trie = new trie();
-        trie.add("boat");
-        trie.add("bubble");
-        trie.add("note");
-        trie.add("pen");
-        assertTrue(trie.find("note"));
-        trie.delete("note");
-        assertFalse(trie.find("note"));
     }
 
     @Test
