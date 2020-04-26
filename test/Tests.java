@@ -55,30 +55,25 @@ class Tests {
     }
 
     @Test
-    public void TestWordsStartPrefix1() {
+    public void TestWordsStartPrefix1() throws NullPointerException{
         trie trie = new trie();
-        trie.add("boat");
-        trie.add("boatt");
-        trie.add("boata");
-        trie.add("boattata");
-        trie.add("boar");
-        trie.add("byar");
-        List<String> result = trie.wordsWithPrefix("boat");
-        for (int i = 0; i < result.size(); i++)
-            System.out.println(result.get(i));
+        trie.add("mmm");
+        trie.add("nnn");
+        trie.add("kkk");
+        assertThrows(Exception.class, () -> trie.wordsWithPrefix("z"));
     }
 
     @Test
-    public void TestWordsStartPrefix2() {
+    public void TestWordsStartPrefix2() throws NullPointerException{
         trie trie = new trie();
-        trie.add("man");
-        trie.add("mother");
-        trie.add("monkey");
-        trie.add("move");
-        trie.add("motor");
-        trie.add("mathematics");
-        List<String> result = trie.wordsWithPrefix("mo");
-        for (int i = 0; i < result.size(); i++)
-            System.out.println(result.get(i));
+        trie.add("append");
+        trie.add("audio");
+        trie.add("assert");
+        trie.add("add");
+        List<String> result = trie.wordsWithPrefix("a");
+        assertEquals("append", result.get(0));
+        assertEquals("assert", result.get(1));
+        assertEquals("add", result.get(2));
+        assertEquals("audio", result.get(3));
     }
 }

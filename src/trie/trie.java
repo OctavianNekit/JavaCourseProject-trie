@@ -23,7 +23,6 @@ public class trie {
         private HashMap<Character, TrieNode> children = new HashMap<>();
         boolean isEnd;
 
-
         public HashMap<Character, TrieNode> getChildren() {
             return children;
         }
@@ -43,12 +42,12 @@ public class trie {
         public TrieNode() {
         }
 
-        private void addToPref(String path) {
+        private void addToPref(String path, LinkedList<String> prefOut) {
             if (isEnd)
                 prefOut.add(path);
 
             for (Map.Entry<Character, TrieNode> node : children.entrySet()) {
-                node.getValue().addToPref(path + node.getKey());
+                node.getValue().addToPref(path + node.getKey(), prefOut);
             }
 
         }
@@ -105,7 +104,7 @@ public class trie {
     public boolean find(String s) {
         HashMap<Character, TrieNode> children = root.getChildren();
         TrieNode node = null;
-        for (char letter : s.toLowerCase().toCharArray()) {
+        for (char letter : s.toCharArray()) {
             if (children.containsKey(letter)) {
                 node = children.get(letter);
                 children = node.getChildren();
@@ -136,19 +135,20 @@ public class trie {
         return a;
     }
 
-
-    private List<String> prefOut = new LinkedList<String>();
-
-    public List<String> wordsWithPrefix(String pref) {
+    public LinkedList<String> wordsWithPrefix(String pref) throws NullPointerException {
+        LinkedList<String> prefOut = new LinkedList<String>();
         prefOut = new LinkedList<String>();
 
         TrieNode start = findNode(pref);
 
         for (Map.Entry<Character, TrieNode> node : start.getChildren().entrySet()) {
-            node.getValue().addToPref(pref + node.getKey());
+            node.getValue().addToPref(pref + node.getKey(), prefOut);
         }
-
-        return prefOut;
+        if (prefOut.size() > 0) {
+            return prefOut;
+        } else {
+            throw new NullPointerException("Слов нет");
+        }
     }
 }
 
